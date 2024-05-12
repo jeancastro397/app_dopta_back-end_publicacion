@@ -40,7 +40,7 @@ INSTALLED_APPS = [
 
     # OTHERS_APPS
     'rest_framework',
-    'apps.publicaciones',
+    'publicaciones',
 ]
 
 MIDDLEWARE = [
