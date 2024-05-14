@@ -2,7 +2,7 @@
 from django.shortcuts import get_object_or_404
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status
+from rest_framework import status, generics
 from publicaciones.models import (
     Mascota,
     Evento,
@@ -17,21 +17,26 @@ from .serializers import (
 )
 
 
+
 ## PUBLICACION MASCOTA 
 # Crear publicaciones mascota
 class CreatePubMascota(APIView):
+    permission_classes = []
 
     def post(self, request):
+
         try:
             serializer = MascotaSerializer(data=request.data)
 
             if serializer.is_valid():
                 serializer.save()
-
-                return Response({"message":"Mascota guardada con exito"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Mascota guardada con éxito"}, status=status.HTTP_201_CREATED)
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
-            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": str(e)}, status=status.HTTP_406_NOT_ACCEPTABLE)
+
 
 
 # Listar Mascotas
@@ -40,14 +45,18 @@ class ListPubMascota(APIView):
     def get(self, request):
         try:
             mascotas = Mascota.objects.all()
-            serializer = MascotaSerializer(mascotas)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            serializer = MascotaSerializer(mascotas, many=True)
+
+            if serializer.is_valid:
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         
         except Mascota.DoesNotExist:
-            return Response({"message":"No se encontraron publicaciones de mascotas."}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
         except Exception as e:
-            return Response({"message":str(e)}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": str(e)}, status=status.HTTP_404_NOT_FOUND)
 
 
 # Modificar Mascota
@@ -83,9 +92,9 @@ class DeletePubMascota(APIView):
             return Response({"message":"La publicación no existe"}, status=status.HTTP_404_NOT_FOUND)
 
 
-# class MascotaViewSet(viewsets.ModelViewSet):
-#     queryset = Mascota.objects.all()
-#     serializer_class = MascotaSerializer
+class MascotaViewSet(generics.ListAPIView):
+    queryset = Mascota.objects.all()
+    serializer_class = MascotaSerializer
 
 
 # class EventoViewSet(viewsets.ModelViewSet):

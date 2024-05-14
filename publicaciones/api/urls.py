@@ -11,6 +11,7 @@ from .views import (
     ListPubMascota,
     ModificarPubMascota,
     DeletePubMascota,
+    MascotaViewSet,
 )
 
 urlpatterns = [
@@ -18,6 +19,8 @@ urlpatterns = [
     path('list-mascotas/', ListPubMascota.as_view(), name='list-mascotas'),
     path('modificar-mascota/<int:pk>', ModificarPubMascota.as_view(), name='modificar-mascota'),
     path('eliminar-mascota/<int:pk>', DeletePubMascota.as_view(), name='eliminar-mascota'),
+
+    path('mascota/', MascotaViewSet.as_view(), name='mascota'),
 ]
 
 

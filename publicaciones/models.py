@@ -2,8 +2,8 @@ from django.db import models
 from django.utils import timezone
 
 list_sexo = [
-    ('1' , 'Macho'),
-    ('2' , 'Hembra'),
+    ('M' , 'Macho'),
+    ('H' , 'Hembra'),
 ]
 
 class Publicacion(models.Model):
@@ -22,7 +22,7 @@ class Mascota(Publicacion):
     especie = models.CharField(max_length=50, null=False, blank=False)
     raza = models.CharField(max_length=50, null=False, blank=False)
     sexo = models.CharField(choices=list_sexo, max_length=20, null=False)
-    tamaño = models.CharField(max_length=50, null=False, blank=False)
+    tamanio = models.CharField(max_length=50, null=False, blank=False)
     edad = models.CharField(max_length=50, null=False, blank= False)
     foto = models.ImageField(upload_to='mascotas/' , null=True, blank=True)
 
