@@ -41,7 +41,10 @@ INSTALLED_APPS = [
     # OTHERS_APPS
     'rest_framework',
     'publicaciones',
+    'corsheaders',
 ]
+
+CORS_ALLOWED_ORIGINS = ["http://localhost:8100"]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,10 +80,21 @@ WSGI_APPLICATION = 'publicacion_rest.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+    "default": {
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": "db_adopta",
+        "USER": "root",
+        "PASSWORD": "Appdopta*1",
+        "HOST": "appdopta-aws.cdw28ekqc8xz.us-east-2.rds.amazonaws.com",
+        "PORT": "3306",
     }
 }
 
