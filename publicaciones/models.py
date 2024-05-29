@@ -9,6 +9,7 @@ list_sexo = [
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False)
     fec_public = models.DateTimeField(auto_now_add=True)
+    favorito = models.BooleanField(default=False)
 
     class Meta:
         abstract = True
@@ -45,7 +46,7 @@ class Servicio(Publicacion):
 
     def __str__(self):
         return self.pk
-    
+
 
 class Informacion(Publicacion):
     subtitulo = models.CharField(max_length=100, null=False, blank=False)
