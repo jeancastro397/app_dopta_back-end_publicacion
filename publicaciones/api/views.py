@@ -15,7 +15,7 @@ from .serializers import (
     InformacionSerializer,
     ServicioSerializer
 )
-
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 ## PUBLICACION MASCOTA 
@@ -95,6 +95,22 @@ class DeletePubMascota(APIView):
 class MascotaViewSet(generics.ListAPIView):
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
+    filter_backends = [DjangoFilterBackend]
+
+    filterset_fields = {
+        'favorito': ['contains'],
+        'titulo': ['contains'],
+        'especie': ['contains'],
+        'raza': ['contains'],
+        'sexo': ['contains'],
+    }
+
+
+    # # Deshabilitar la renderización del formulario del filtro
+    # def get_serializer_context(self):
+    #     context = super().get_serializer_context()
+    #     context['filtering'] = True
+    #     return context
 
 
 # class EventoViewSet(viewsets.ModelViewSet):
