@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-67g1)&qbmo=4by!74f88__=9wk(!2*!w0xca^v#6jx!a0hk-iu'
+SECRET_KEY = 'django-insecure-$srlseyztisvdte7l57p+xlixs&3c)ze1m3&b)r5@k-vjq1x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
 
     # OTHERS_APPS
     'rest_framework',
+    'rest_framework_simplejwt',
     'publicaciones',
     'common',
     'corsheaders',
@@ -150,6 +151,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # }
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        "rest_framework.authentication.TokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    ],
 }
 
 AUTH_USER_MODEL = "common.Usuario"

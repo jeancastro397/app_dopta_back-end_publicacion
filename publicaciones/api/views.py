@@ -17,12 +17,13 @@ from .serializers import (
 )
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 
 
 ## PUBLICACION MASCOTA 
 # Crear publicaciones mascota
 class CreatePubMascota(APIView):
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
 
     def post(self, request):
 
@@ -99,7 +100,6 @@ class MascotaViewSet(generics.ListAPIView):
     filter_backends = [DjangoFilterBackend]
 
     filterset_fields = {
-        'favorito': ['contains'],
         'titulo': ['contains'],
         'especie': ['contains'],
         'raza': ['contains'],
