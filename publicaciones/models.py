@@ -2,17 +2,19 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 
+
 list_sexo = [
     ('M' , 'Macho'),
     ('H' , 'Hembra'),
 ]
 
+
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False)
     fec_public = models.DateTimeField(auto_now_add=True)
-    favorito = models.BooleanField(default=False)
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
 
     class Meta:
         abstract = True

@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     # OTHERS_APPS
     'rest_framework',
     'publicaciones',
+    'common',
     'corsheaders',
 ]
 
@@ -90,7 +91,7 @@ WSGI_APPLICATION = 'publicacion_rest.wsgi.application'
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.mysql",
-        "NAME": "db_adopta",
+        "NAME": "db_appdopta",
         "USER": "root",
         "PASSWORD": "Appdopta*1",
         "HOST": "appdopta-aws.cdw28ekqc8xz.us-east-2.rds.amazonaws.com",
@@ -123,7 +124,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'es'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
 
@@ -150,3 +151,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
 }
+
+AUTH_USER_MODEL = "common.Usuario"

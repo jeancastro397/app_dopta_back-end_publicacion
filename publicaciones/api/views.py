@@ -16,12 +16,13 @@ from .serializers import (
     ServicioSerializer
 )
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.permissions import IsAuthenticated
 
 
 ## PUBLICACION MASCOTA 
 # Crear publicaciones mascota
 class CreatePubMascota(APIView):
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def post(self, request):
 
