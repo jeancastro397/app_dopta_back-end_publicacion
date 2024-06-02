@@ -14,7 +14,6 @@ class Publicacion(models.Model):
     fec_public = models.DateTimeField(auto_now_add=True)
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    
 
     class Meta:
         abstract = True
@@ -31,8 +30,6 @@ class Mascota(Publicacion):
     tamanio = models.CharField(max_length=50, null=False, blank=False)
     edad = models.CharField(max_length=50, null=False, blank= False)
     foto = models.URLField(null=True, blank=True, max_length=200)
-
-
 
     def __str__(self):
         return self.nom_mascota
