@@ -59,3 +59,18 @@ class Informacion(Publicacion):
 
     def __str__(self):
         return self.pk
+
+
+
+##  Modelo para guardar datos de publicaciones marcadas como favoritos, guardando su usuario e id de la publicacion
+class Favorito(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    Mascota = models.ForeignKey('Mascota', on_delete=models.CASCADE)
+    fecha_agregado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('usuario', 'mascota')
+        verbose_name_plural = 'Favoritos'
+    
+    def __str__(self):
+        return f"{self.usuario} - {self.Mascota}"

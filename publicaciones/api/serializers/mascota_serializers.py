@@ -1,13 +1,14 @@
 from rest_framework import serializers
 from publicaciones.api.mixins import FirebaseImageMixin
-from publicaciones.models import Mascota
+from publicaciones.models import Mascota, Favorito
 
 
 class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
     class Meta:
         model = Mascota
-        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto']
+        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'is_favorito']
         read_only_fields = ['usuario']
+
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -39,3 +40,10 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
         instance.save()
 
         return instance
+
+    # Funcion para inscribir campo favorito a publicacion mascota
+    def get_is_favorito(self, obj):
+        request = self.context.get('request', None)
+        if request and request.user.is_authemticated:
+            return Favorito.objects.filter(usuario=request.user, mascota=obj).exists()
+        return False
