@@ -16,10 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from publicaciones.api.urls.evento_urls import urlpatterns as eventos
+from publicaciones.api.urls.mascota_urls import urlpatterns as mascotas
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('mascotas/', include('publicaciones.api.urls.mascota_urls')),
-    path('eventos/', include('publicaciones.api.urls.evento_urls')),
+    path('mascotas/', include(mascotas)),
+    path('eventos/', include(eventos)),
     path('', include('publicaciones.urls')),
 ]

@@ -3,7 +3,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status, generics
 from publicaciones.models import Mascota
-from serializers.mascota_serializers import MascotaSerializer
+from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication

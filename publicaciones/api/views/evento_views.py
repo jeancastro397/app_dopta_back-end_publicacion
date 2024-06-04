@@ -4,8 +4,8 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import status, generics
-from serializers.evento_serializers import EventoSerializer
-from models import Evento
+from publicaciones.api.serializers.evento_serializers import EventoSerializer
+from publicaciones.models import Evento
 from django_filters.rest_framework import DjangoFilterBackend
 
 

@@ -1,27 +1,27 @@
 from django.shortcuts import get_object_or_404
-from models import Favorito, Mascota
+from publicaciones.models import Favorito, Mascota
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from api.serializers.mascota_serializers import MascotaSerializer
+from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from .serializers import FavoritoSerializer
 
 
 
 
 ## Agregar publicacion a favoritos
-class AddFavortio(APIView):
+class AddFavorito(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request, pk):
         mascota = get_object_or_404(Mascota, pk=pk)
-        Favorito, created = Favorito.objects.get_or_create(usuario=request.user, mascota=mascota)
-
+        favorito, created = Favorito.objects.get_or_create(usuario=request.user, mascota=mascota)
         if created:
-            return Response({'message': 'Mascota añadida a favoritos'}, status=status.HTTP_201_CREATED)
+            return Response({"message": "Mascota añadida a favoritos"}, status=status.HTTP_201_CREATED)
         else:
-            return Response({'message': 'Mascota ya está en favoritos'}, status=status.HTTP_200_OK)
+            return Response({"message": "Mascota ya está en favoritos"}, status=status.HTTP_200_OK)
+
 
 
 ## Eliminar publicacion de favoritos

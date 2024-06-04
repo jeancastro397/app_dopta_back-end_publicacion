@@ -1,5 +1,5 @@
 from django.urls import path
-from views.evento_views import (
+from publicaciones.api.views.evento_views import (
     CreatePubEvento,
     ListPubEvento,
     ModificarPubEvento,
@@ -8,7 +8,7 @@ from views.evento_views import (
 
 
 # URLS de vistas para Evento
-urlspatterns = [
+urlpatterns = [
     path('crear-publicacion/', CreatePubEvento.as_view(), name='create-pub-evento'),
     path('lista-publicaciones/', ListPubEvento.as_view(), name='list-pub-evento'),
     path('modificar-publicacion/<int:pk>', ModificarPubEvento.as_view(), name='modif-pub-evento'),

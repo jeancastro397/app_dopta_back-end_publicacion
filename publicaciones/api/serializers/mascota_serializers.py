@@ -6,7 +6,7 @@ from publicaciones.models import Mascota, Favorito
 class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
     class Meta:
         model = Mascota
-        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'is_favorito']
+        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto']
         read_only_fields = ['usuario']
 
 

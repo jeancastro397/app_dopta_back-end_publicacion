@@ -65,7 +65,7 @@ class Informacion(Publicacion):
 ##  Modelo para guardar datos de publicaciones marcadas como favoritos, guardando su usuario e id de la publicacion
 class Favorito(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    Mascota = models.ForeignKey('Mascota', on_delete=models.CASCADE)
+    mascota = models.ForeignKey('Mascota', on_delete=models.CASCADE)
     fecha_agregado = models.DateTimeField(auto_now_add=True)
 
     class Meta:
