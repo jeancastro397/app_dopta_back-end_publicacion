@@ -9,7 +9,7 @@ from .serializers import FavoritoSerializer
 
 
 
-
+### CRUD DE FAVORITOS
 ## Agregar publicacion a favoritos
 class AddFavorito(APIView):
     permission_classes = [IsAuthenticated]

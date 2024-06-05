@@ -8,3 +8,4 @@ class FavoritoSerializer(serializers.ModelSerializer):
         model = Favorito
         fields = ['usuario', 'mascota', 'fecha_agregado']
         read_only_fields = ['usuario', 'fecha_agregado']
+
