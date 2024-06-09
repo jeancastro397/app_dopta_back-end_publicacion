@@ -49,23 +49,21 @@ class ListPubMascota(generics.ListAPIView):
 # Modificar Mascota
 class ModificarPubMascota(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = {IsAuthenticated}
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, pk=None):
         try:
             mascota = get_object_or_404(Mascota, pk=pk)
-            
-            serializer = MascotaSerializer(mascota, data=request.data, partial=True)
-
+            serializer = MascotaSerializer(mascota, data=request.data, partial=True, context={'request': request})
             if serializer.is_valid():
                 serializer.save()
                 return Response(serializer.data, status=status.HTTP_200_OK)
-
+            else:
+                return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         except Mascota.DoesNotExist:
-            return Response({"message":"La publicación no existe"}, status=status.HTTP_404_NOT_FOUND)
-        
+            return Response({"message": "La publicación no existe"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
-            return Response({"message":str(e)}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Eliminar Mascotas

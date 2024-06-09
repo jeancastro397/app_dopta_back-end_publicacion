@@ -18,7 +18,7 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
         mascota = Mascota.objects.create(usuario=user, **validated_data)
 
         # Si hay una imagen, subirla a Firebase
-        foto = request.FILES.get('foto')
+        foto = validated_data.pop('foto', None)
         if foto:
             public_url = self.upload_image_to_firebase(user, mascota.id, foto)
             mascota.foto = public_url
@@ -27,7 +27,7 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
         return mascota
 
     def update(self, instance, validated_data):
-        request = self.context.get('request')
+        request = self.context.get('request', None)
         user = request.user
 
         foto = request.FILES.get('foto')
@@ -37,6 +37,11 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
 
         instance.titulo = validated_data.get('titulo', instance.titulo)
         instance.nom_mascota = validated_data.get('nom_mascota', instance.nom_mascota)
+        instance.especie = validated_data.get('especie', instance.especie)
+        instance.raza = validated_data.get('raza', instance.raza)
+        instance.sexo = validated_data.get('sexo', instance.sexo)
+        instance.tamanio = validated_data.get('tamanio', instance.tamanio)
+        instance.edad = validated_data.get('edad', instance.edad)
         instance.save()
 
         return instance

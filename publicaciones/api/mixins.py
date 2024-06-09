@@ -1,6 +1,7 @@
 from firebase_admin import storage
 from PIL import Image
 import io
+from firebasestorage.firebase import bucket
 
 class FirebaseImageMixin:
     def upload_image_to_firebase(self, user, publication_id, foto):
@@ -11,7 +12,7 @@ class FirebaseImageMixin:
         jpg_image.seek(0)
 
         # Crear el blob para la foto JPG
-        bucket = storage.bucket()
+        #bucket = storage.bucket()
         blob = bucket.blob(f"publicaciones/{user.username}_{publication_id}.jpg")
         blob.upload_from_file(jpg_image, content_type="image/jpeg")
         blob.make_public()
