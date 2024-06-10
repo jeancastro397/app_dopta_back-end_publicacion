@@ -16,8 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from publicaciones.api.urls.evento_urls import urlpatterns as eventos
+from publicaciones.api.urls.mascota_urls import urlpatterns as mascotas
+from reportes.urls import urlpatterns as reportes
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('publicaciones.api.urls')),
+    path('mascotas/', include(mascotas)),
+    path('eventos/', include(eventos)),
+    path('', include('publicaciones.urls')),
+    path('reportes/', include(reportes)),
 ]

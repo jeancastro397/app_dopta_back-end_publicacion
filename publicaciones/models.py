@@ -14,7 +14,6 @@ class Publicacion(models.Model):
     fec_public = models.DateTimeField(auto_now_add=True)
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    
 
     class Meta:
         abstract = True
@@ -32,8 +31,6 @@ class Mascota(Publicacion):
     edad = models.CharField(max_length=50, null=False, blank= False)
     foto = models.URLField(null=True, blank=True, max_length=200)
 
-
-
     def __str__(self):
         return self.nom_mascota
 
@@ -42,6 +39,7 @@ class Evento(Publicacion):
     nombre = models.CharField(max_length=30, null=False, blank=False)
     localizacion = models.CharField(max_length=255, null=False, blank=False)
     fec_evento = models.DateField(null=False, blank=False, default=timezone.now)
+    descripcion = models.CharField(max_length=255, null=False, blank=False)
 
     def __str__(self):
         return self.nombre
@@ -61,3 +59,18 @@ class Informacion(Publicacion):
 
     def __str__(self):
         return self.pk
+
+
+
+##  Modelo para guardar datos de publicaciones marcadas como favoritos, guardando su usuario e id de la publicacion
+class Favorito(models.Model):
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    mascota = models.ForeignKey('Mascota', on_delete=models.CASCADE)
+    fecha_agregado = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('usuario', 'mascota')
+        verbose_name_plural = 'Favoritos'
+    
+    def __str__(self):
+        return f"{self.usuario} - {self.Mascota}"
