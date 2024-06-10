@@ -1,8 +1,13 @@
 from rest_framework import serializers
 from publicaciones.api.mixins import FirebaseImageMixin
 from publicaciones.models import Mascota, Favorito
+from common.serializers import UserSerializer
+
+
 
 class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
+    usuario = UserSerializer(read_only=True)
+
     is_favorito = serializers.SerializerMethodField()
     foto_archivo = serializers.ImageField(write_only=True, required=False)
 

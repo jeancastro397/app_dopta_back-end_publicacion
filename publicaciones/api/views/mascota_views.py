@@ -7,7 +7,7 @@ from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-
+from common.models import Usuario
 
 
 ## PUBLICACION MASCOTA 
@@ -32,18 +32,25 @@ class CreatePubMascota(APIView):
 
 
 
-# Listar Mascotas con fltros
+# Listar Mascotas con filtros
 class ListPubMascota(generics.ListAPIView):
     queryset = Mascota.objects.all()
     serializer_class = MascotaSerializer
     filter_backends = [DjangoFilterBackend]
-
+    
+    # Agrega el campo del usuario a los filtros
     filterset_fields = {
         'titulo': ['contains'],
         'especie': ['contains'],
         'raza': ['contains'],
         'sexo': ['contains'],
+        'usuario__username': ['contains']  # Filtro para el nombre de usuario
     }
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        queryset = queryset.order_by('-fec_public')
+        return Mascota.objects.all()
 
 
 # Modificar Mascota

@@ -17,3 +17,4 @@ class Usuario(AbstractUser):
     @property
     def is_administrador(self):
         return hasattr(self, "administrador")
+    
