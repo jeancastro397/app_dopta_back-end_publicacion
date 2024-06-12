@@ -25,18 +25,18 @@ from publicaciones.models import (
 class AddFavoritoMascota(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        serializer = FavoritoMascotaSerializer(data=request.data)
-        if serializer.is_valid():
-            mascota = get_object_or_404(Mascota, pk=serializer.validated_data['mascota'].id)
+    def post(self, request, pk):
+        try:
+            mascota = get_object_or_404(Mascota, pk=pk)
             favorito, created = FavoritoMascota.objects.get_or_create(usuario=request.user, mascota=mascota)
 
             if created:
                 return Response({"message": "Mascota añadida a favoritos"}, status=status.HTTP_201_CREATED)
             else:
-                return Response({"message": "La mascota ya está en favoritos"}, status=status.HTTP_200_OK)
+                return Response({"message": "La mascota ya se encuentra en favoritos"}, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Remover la mascota de favoritos
@@ -52,7 +52,7 @@ class RemoveFavoritoMascota(APIView):
 
 
 # Listar mascotas en favoritos
-class ListFavoritosMascota(APIView):
+class ListFavoritosMascota(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = FavoritoMascotaSerializer
 
@@ -66,18 +66,18 @@ class ListFavoritosMascota(APIView):
 class AddFavoritoEvento(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        serializer = FavoritoEventoSerializer(data=request.data)
-        if serializer.is_valid():
-            evento = get_object_or_404(Evento, pk=serializer.validated_data['evento'].id)
+    def post(self, request, pk):
+        try:
+            evento = get_object_or_404(Evento, pk=pk)
             favorito, created = FavoritoEvento.objects.get_or_create(usuario=request.user, evento=evento)
 
             if created:
-                return Response({"message": "Evento añadida a favoritos"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Evento añadido a favoritos"}, status=status.HTTP_201_CREATED)
             else:
-                return Response({"message": "El evento ya está en favoritos"}, status=status.HTTP_200_OK)
+                return Response({"message": "El evento ya se encuentra en favoritos"}, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Remover el evento de favoritos
@@ -93,7 +93,7 @@ class RemoveFavoritoEvento(APIView):
 
 
 # Listar eventos en favoritos
-class ListFavoritosEvento(APIView):
+class ListFavoritosEvento(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serializer_class = FavoritoEventoSerializer
 
@@ -107,18 +107,18 @@ class ListFavoritosEvento(APIView):
 class AddFavoritoServicio(APIView):
     permission_classes = [IsAuthenticated]
 
-    def post(self, request):
-        serializer = FavoritoServicioSerializer(data=request.data)
-        if serializer.is_valid():
-            servicio = get_object_or_404(Servicio, pk=serializer.validated_data['servicio'].id)
-            favorito, created = FavoritoServicio.objects.get_or_create(user=request.user, servicio=servicio)
+    def post(self, request, pk):
+        try:
+            servicio = get_object_or_404(Servicio, pk=pk)
+            favorito, created = FavoritoServicio.objects.get_or_create(usuario=request.user, servicio=servicio)
 
             if created:
-                return Response({"message": "El servicio se agregó a favoritos"}, status=status.HTTP_201_CREATED)
+                return Response({"message": "Servicio añadido a favoritos"}, status=status.HTTP_201_CREATED)
             else:
-                return Response({"message": "El servicio ya se encuentra en favoritos."}, status=status.HTTP_200_OK)
+                return Response({"message": "El servicio ya se encuentra en favoritos"}, status=status.HTTP_200_OK)
 
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # Remover servicio de favoritos
@@ -134,7 +134,7 @@ class RemoveFavoritoServicio(APIView):
 
 
 # Listar servicios en favoritos
-class ListFavoritosServicio(APIView):
+class ListFavoritosServicio(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     serrializer = FavoritoServicioSerializer
 

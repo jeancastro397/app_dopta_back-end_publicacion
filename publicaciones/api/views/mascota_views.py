@@ -7,7 +7,6 @@ from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from common.models import Usuario
 
 
 ## PUBLICACION MASCOTA 
