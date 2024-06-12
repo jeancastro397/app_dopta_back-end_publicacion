@@ -1,19 +1,14 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from django.contrib.contenttypes.models import ContentType
-from django.contrib.contenttypes.fields import GenericForeignKey
 
 
-list_sexo = [
-    ('M' , 'Macho'),
-    ('H' , 'Hembra'),
-]
 
-
+# Models Abstract Publicacion
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False)
     fec_public = models.DateTimeField(auto_now_add=True)
+    descripcion = models.CharField(max_length=255, null=False, blank=False)
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -24,7 +19,12 @@ class Publicacion(models.Model):
         return self.titulo
 
 
+# Models Mascota
 class Mascota(Publicacion):
+    list_sexo = [
+    ('M' , 'Macho'),
+    ('H' , 'Hembra'),
+]
     nom_mascota = models.CharField(max_length=100, null=False, blank=False)
     especie = models.CharField(max_length=50, null=False, blank=False)
     raza = models.CharField(max_length=50, null=False, blank=False)
@@ -37,44 +37,20 @@ class Mascota(Publicacion):
         return self.nom_mascota
 
 
+# Models Evento
 class Evento(Publicacion):
     nombre = models.CharField(max_length=30, null=False, blank=False)
     localizacion = models.CharField(max_length=255, null=False, blank=False)
     fec_evento = models.DateField(null=False, blank=False, default=timezone.now)
-    descripcion = models.CharField(max_length=255, null=False, blank=False)
 
     def __str__(self):
         return self.nombre
 
 
+# Models Servicio
 class Servicio(Publicacion):
     tipo_servicio = models.CharField(max_length=50, null=False, blank=False)
     ubicacion = models.CharField(max_length=255, null=False, blank=False)
 
     def __str__(self):
         return self.pk
-
-
-class Informacion(Publicacion):
-    subtitulo = models.CharField(max_length=100, null=False, blank=False)
-    contenido = models.TextField(max_length=255, null=False, blank=False)
-
-    def __str__(self):
-        return self.pk
-
-
-
-##  Modelo para guardar datos de publicaciones marcadas como favoritos, guardando su usuario e id de la publicacion
-class Favorito(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
-    object_id = models.PositiveIntegerField()
-    content_object = GenericForeignKey('content_type', 'object_id')
-    fecha_agregado = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('usuario', 'content_type', 'object_id')
-        verbose_name_plural = 'Favoritos'
-    
-    def __str__(self):
-        return f"{self.usuario} - {self.content_object}"
