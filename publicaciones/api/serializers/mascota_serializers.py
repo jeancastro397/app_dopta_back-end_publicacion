@@ -16,7 +16,7 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
 
     class Meta:
         model = Mascota
-        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'is_favorito', 'foto_archivo']
+        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'descripcion', 'is_favorito', 'foto_archivo']
         read_only_fields = ['usuario']
 
     def create(self, validated_data):

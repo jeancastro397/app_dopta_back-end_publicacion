@@ -14,6 +14,8 @@ class FavoritoMascotaSerializer(ModelSerializer):
 
 # Serializadorpara el modelo de Evento Favorito
 class FavoritoEventoSerializer(ModelSerializer):
+    fecha_agregado = DateTimeField(format="%d-%m-%Y %H:%M:%S", read_only=True)
+
     class Meta:
         model = FavoritoEvento
         fields = ['usuario', 'evento', 'fecha_agregado']
@@ -22,6 +24,8 @@ class FavoritoEventoSerializer(ModelSerializer):
 
 # serializador para el modelo de Servicio Favorito
 class FavoritoServicioSerializer(ModelSerializer):
+    fecha_agregado = DateTimeField(format="%d-%m-%Y %H:%M:%S", read_only=True)
+    
     class Meta:
         model = FavoritoServicio
         fields = ['usuario', 'servicio', 'fecha_agregado']
