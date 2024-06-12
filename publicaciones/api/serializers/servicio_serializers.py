@@ -1,34 +1,35 @@
-from publicaciones.models import Evento
-from favoritos.models import FavoritoEvento
+from rest_framework.serializers import SerializerMethodField, ModelSerializer, DateTimeField, ValidationError
+from publicaciones.models import Servicio
+from favoritos.models import FavoritoServicio
 from common.serializers import UserSerializer
-from rest_framework.serializers import ModelSerializer, DateTimeField, SerializerMethodField, ValidationError
 
 
 
-class EventoSerializer(ModelSerializer):
+class ServicioSerializer(ModelSerializer):
     usuario = UserSerializer(read_only=True)
-    is_favorito = SerializerMethodField()
     fec_public = DateTimeField(format="%d-%m-%Y %H:%M:%S", read_only=True)
+    is_favorito = SerializerMethodField()
 
     class Meta:
-        model = Evento
-        fields = ['usuario', 'titulo', 'fec_public', 'descripcion', 'nombre', 'localizacion', 'fec_evento', 'descripcion']
+        model = Servicio
+        fields = ['usuario', 'titulo', 'fec_public', 'descripcion', 'tipo_servicio', 'ubicacion', 'is_favorito']
         read_only_fields = ['usuario']
+
 
     def create(self, validated_data):
         request = self.context.get('request')
         if not request or not request.user.is_authenticated:
-            raise ValidationError("Usuario no autenticado")
-        
-        user = request.user
-        evento = Evento.objects.create(usuario=user, **validated_data)
-        evento.save()
-        return evento
+            raise ValidationError("Usuario no autentificado")
+
+        servicio = Servicio.objects.create(usuario = request.user, **validated_data)
+        servicio.save()
+
+        return servicio
 
 
     def update(self, instance, validated_data):
         request = self.context.get('request', None)
-        if not request or not request.user.is_authneticated:
+        if not request or not request.user.is_authenticated:
             raise ValidationError("Usuario no autentificado")
         
         for attr, value in validated_data.items():
@@ -41,5 +42,6 @@ class EventoSerializer(ModelSerializer):
     def get_is_favorito(self, obj):
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
-            return FavoritoEvento.objects.filter(usuario=request.user, evento=obj).exists()
+            return FavoritoServicio.objects.filter(usuario=request.user, Servicio=obj).exists()
+
         return False
