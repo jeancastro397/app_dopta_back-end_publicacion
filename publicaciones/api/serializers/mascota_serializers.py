@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from publicaciones.api.mixins import FirebaseImageMixin
-from publicaciones.models import Mascota, Favorito
+from publicaciones.models import Mascota
+from favoritos.models import FavoritoMascota
 from common.serializers import UserSerializer
 
 
@@ -11,9 +12,11 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
     is_favorito = serializers.SerializerMethodField()
     foto_archivo = serializers.ImageField(write_only=True, required=False)
 
+    fec_public = serializers.DateTimeField(format="%d-%m-%Y %H:%M:%S", read_only=True)
+
     class Meta:
         model = Mascota
-        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'is_favorito', 'foto_archivo']
+        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'descripcion', 'is_favorito', 'foto_archivo']
         read_only_fields = ['usuario']
 
     def create(self, validated_data):
@@ -62,5 +65,5 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
     def get_is_favorito(self, obj):
         request = self.context.get('request', None)
         if request and request.user.is_authenticated:
-            return Favorito.objects.filter(usuario=request.user, mascota=obj).exists()
+            return FavoritoMascota.objects.filter(usuario=request.user, mascota=obj).exists()
         return False
