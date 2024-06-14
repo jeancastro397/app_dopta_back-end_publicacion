@@ -21,8 +21,8 @@ urlpatterns = [
     path('remover-reporte-evento/<int:pk>', RemoveReporteEvento.as_view(), name='remove-report-evento'),
 
     # Endpoints de Reportes de Servicio
-    path('reportar-pub-servicio/<int:pk>', ReportarMascota.as_view(), name='report-pub-service'),
-    path('remover-reporte-servicio/<int:pk>', RemoveReporteMascota.as_view(), name='remove-report-service'),
+    path('reportar-pub-servicio/<int:pk>', ReportarServicio.as_view(), name='report-pub-service'),
+    path('remover-reporte-servicio/<int:pk>', RemoveReporteServicio.as_view(), name='remove-report-service'),
 
     # Endpoints de listas de reportes
     path('listar-reportes-usuario/', ListReportesUsuario.as_view(), name='list-report-user'),
