@@ -2,6 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status, generics
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
+from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.response import Response
 from .models import (
     FavoritoMascota,
@@ -18,12 +19,14 @@ from publicaciones.models import (
     Evento,
     Servicio,
 )
+from common.permissions import IsPersonaOrOrganizacion
 
 
 ## CRUD DE FAVORITOS MASCOTA
 # Agregar Mascota a Favorito
 class AddFavoritoMascota(APIView):
-    permission_classes = [IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def post(self, request, pk):
         try:

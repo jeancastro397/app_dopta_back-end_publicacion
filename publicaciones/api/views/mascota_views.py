@@ -7,13 +7,14 @@ from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
+from common.permissions import IsPersonaOrOrganizacion, IsOwnerOrAdministrador
 
 
 ## PUBLICACION MASCOTA 
 # Crear publicaciones mascota
 class CreatePubMascota(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def post(self, request, *args, **kwargs):
 
@@ -55,7 +56,7 @@ class ListPubMascota(generics.ListAPIView):
 # Modificar Mascota
 class ModificarPubMascota(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def patch(self, request, pk=None):
         try:
@@ -75,7 +76,7 @@ class ModificarPubMascota(APIView):
 # Eliminar Mascotas
 class DeletePubMascota(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def delete(self, request, pk):
         try:
