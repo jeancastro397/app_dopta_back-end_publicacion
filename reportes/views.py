@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import status, generics
 from rest_framework.views import APIView
-from rest_framework.permissions import IsAuthenticated, IsAdminUser
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import (
     ReporteMascota,
@@ -21,12 +21,13 @@ from publicaciones.models import (
 )
 from rest_framework.serializers import Serializer
 from itertools import chain
+from common.permissions import IsOwnerOrAdministrador, IsAdministrador ,IsPersonaOrOrganizacion
 
 
 ## CRUD DE REPORTES DE MASCOTA
 # REPORTAR MASCOTA
 class ReportarMascota(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def post(self, request, pk):
         try:
@@ -44,7 +45,7 @@ class ReportarMascota(APIView):
 
 # Remover la publicacion de los reportes (Tabla Reporte, no Mascota)
 class RemoveReporteMascota(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def delete(self, request, pk):
         mascota = get_object_or_404(Mascota, pk=pk)
@@ -58,7 +59,7 @@ class RemoveReporteMascota(APIView):
 ## CRUD DE REPORTES DE EVENTO
 # REPORTAR EVENTO
 class ReportarEvento(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def post(self, request, pk):
         try:
@@ -76,7 +77,7 @@ class ReportarEvento(APIView):
 
 # Remover la publicacion de los reportes
 class RemoveReporteEvento(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def delete(self, request, pk):
         evento = get_object_or_404(Evento, pk=pk)
@@ -90,7 +91,7 @@ class RemoveReporteEvento(APIView):
 ## CRUD DE REPORTES DE SERVICIOS
 # REPORTAR SERVICIO
 class ReportarServicio(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def post(self, request, pk):
         try:
@@ -108,7 +109,7 @@ class ReportarServicio(APIView):
 
 # Remover la publicacion de los reportes
 class RemoveReporteServicio(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
 
     def delete(self, request, pk):
         servicio = get_object_or_404(Servicio, pk=pk)
@@ -121,7 +122,7 @@ class RemoveReporteServicio(APIView):
 
 # Listar reportes del propio usuario
 class ListReportesUsuario(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     # Combina los serializadores de las publicaciones
     def get_serializer_class(self):
@@ -145,7 +146,7 @@ class ListReportesUsuario(generics.ListAPIView):
 
 # Listar reportes de todos los usuarios (solo admin)
 class ListReportesAdmin(generics.ListAPIView):
-    permission_classes = [IsAuthenticated, IsAdminUser]
+    permission_classes = [IsAuthenticated, IsAdministrador]
     filter_backends = [DjangoFilterBackend]
 
     filterset_fields = {

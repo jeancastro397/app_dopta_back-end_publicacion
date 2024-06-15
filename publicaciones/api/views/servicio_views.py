@@ -10,14 +10,14 @@ from rest_framework_simplejwt.authentication import JWTAuthentication
 # Imports de models y serialzers
 from publicaciones.models import Servicio
 from publicaciones.api.serializers.servicio_serializers import ServicioSerializer
-
+from common.permissions import IsOrganizacion
 
 
 ## PUBLICACION DE SERVICIOS
 # Crear publicaciones de Servicios 
 class CreatePubServicio(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOrganizacion]
 
     def post(self, request, *args, **kwargs):
 
@@ -56,7 +56,7 @@ class ListPubServicio(generics.ListAPIView):
 # Modificar publicacion de servicio
 class ModificarPubServicio(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = {IsAuthenticated}
+    permission_classes = {IsAuthenticated, IsOrganizacion}
 
     def patch(self, request, pk=None):
         try:
@@ -79,7 +79,7 @@ class ModificarPubServicio(APIView):
 # Eliminar publicacion de Servicio
 class DeletePubServicio(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOrganizacion]
 
     def delete(self, request, pk):
         try:
