@@ -13,7 +13,7 @@ class FirebaseImageMixin:
 
             # Crear el blob para la foto JPG
             bucket = storage.bucket()
-            blob = bucket.blob(f"pub-mascotas/{instance.usuario.username}_{instance.nom_mascota}.jpg")
+            blob = bucket.blob(f"pub-mascotas/{instance.usuario.username}_{instance.nom_mascota}_{instance.usuario.id}_{instance.id}.jpg")
             blob.upload_from_file(jpg_image, content_type="image/jpeg")
             blob.make_public()
 
