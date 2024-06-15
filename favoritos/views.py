@@ -19,7 +19,7 @@ from publicaciones.models import (
     Evento,
     Servicio,
 )
-from common.permissions import IsPersonaOrOrganizacion
+from common.permissions import IsPersonaOrOrganizacion, IsOrganizacion
 
 
 ## CRUD DE FAVORITOS MASCOTA
@@ -44,7 +44,7 @@ class AddFavoritoMascota(APIView):
 
 # Remover la mascota de favoritos
 class RemoveFavoritoMascota(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def delete(self, request, pk):
         mascota = get_object_or_404(Mascota, pk=pk)
@@ -56,7 +56,7 @@ class RemoveFavoritoMascota(APIView):
 
 # Listar mascotas en favoritos
 class ListFavoritosMascota(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
     serializer_class = FavoritoMascotaSerializer
 
     def get_queryset(self):
@@ -67,7 +67,7 @@ class ListFavoritosMascota(generics.ListAPIView):
 ## CRUD DE FAVORITOS EVENTO
 # Agregar Evento a Favorito
 class AddFavoritoEvento(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def post(self, request, pk):
         try:
@@ -85,7 +85,7 @@ class AddFavoritoEvento(APIView):
 
 # Remover el evento de favoritos
 class RemoveFavoritoEvento(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def delete(self, request, pk):
         evento = get_object_or_404(Evento, pk=pk)
@@ -97,7 +97,7 @@ class RemoveFavoritoEvento(APIView):
 
 # Listar eventos en favoritos
 class ListFavoritosEvento(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
     serializer_class = FavoritoEventoSerializer
 
     def get_queryset(self):
@@ -108,7 +108,7 @@ class ListFavoritosEvento(generics.ListAPIView):
 ## CRUD DE FAVORITOS SERVICIO
 # Agregar servicio a favoritos
 class AddFavoritoServicio(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def post(self, request, pk):
         try:
@@ -126,7 +126,7 @@ class AddFavoritoServicio(APIView):
 
 # Remover servicio de favoritos
 class RemoveFavoritoServicio(APIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def delete(self, request, pk):
         servicio = get_object_or_404(Servicio, pk=pk)
@@ -138,7 +138,7 @@ class RemoveFavoritoServicio(APIView):
 
 # Listar servicios en favoritos
 class ListFavoritosServicio(generics.ListAPIView):
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
     serrializer = FavoritoServicioSerializer
 
     def get_queryset(self):

@@ -7,7 +7,7 @@ from publicaciones.api.serializers.mascota_serializers import MascotaSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.permissions import IsAuthenticated
 from rest_framework_simplejwt.authentication import JWTAuthentication
-from common.permissions import IsPersonaOrOrganizacion, IsOwnerOrAdministrador
+from common.permissions import IsPersonaOrOrganizacion
 
 
 ## PUBLICACION MASCOTA 
@@ -76,7 +76,7 @@ class ModificarPubMascota(APIView):
 # Eliminar Mascotas
 class DeletePubMascota(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated, IsOwnerOrAdministrador]
+    permission_classes = [IsAuthenticated, IsPersonaOrOrganizacion]
 
     def delete(self, request, pk):
         try:

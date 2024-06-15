@@ -5,6 +5,7 @@ from publicaciones.api.urls.mascota_urls import urlpatterns as mascotas
 from publicaciones.api.urls.servicio_urls import urlpatterns as servicios
 from reportes.urls import urlpatterns as reportes
 from favoritos.urls import urlpatterns as favoritos
+from publicaciones.urls import urlpatterns as adminPublicacion
 from .views import IndexView
 
 
@@ -15,5 +16,6 @@ urlpatterns = [
     path('servicios/', include(servicios)),
     path('reportes/', include(reportes)),
     path('favoritos/', include(favoritos)),
+    path('publicaciones/', include(adminPublicacion)),
     path('', IndexView.as_view(), name='index'),
 ]

@@ -7,6 +7,7 @@ from rest_framework import status, generics
 from publicaciones.api.serializers.evento_serializers import EventoSerializer
 from publicaciones.models import Evento
 from django_filters.rest_framework import DjangoFilterBackend
+from common.permissions import IsOrganizacion
 
 
 
@@ -14,7 +15,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 # Crear publicaciones eventos
 class CreatePubEvento(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOrganizacion]
 
     def post(self, request, *args, **kwargs):
 
@@ -53,7 +54,7 @@ class ListPubEvento(generics.ListAPIView):
 # Modificar Evento
 class ModificarPubEvento(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = {IsAuthenticated}
+    permission_classes = {IsAuthenticated, IsOrganizacion}
 
     def patch(self, request, pk=None):
         try:
@@ -76,7 +77,7 @@ class ModificarPubEvento(APIView):
 # Eliminar Eventos
 class DeletePubEvento(APIView):
     authentication_classes = [JWTAuthentication]
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticated, IsOrganizacion]
 
     def delete(self, request, pk):
         try:
