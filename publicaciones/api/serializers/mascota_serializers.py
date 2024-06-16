@@ -67,3 +67,9 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             return FavoritoMascota.objects.filter(usuario=request.user, mascota=obj).exists()
         return False
+
+    def delete(self, instance):
+        # Eliminar la imagen de Firebase si existe
+        self.delete_image_from_firebase(instance)
+        # Eliminar la instancia
+        instance.delete()

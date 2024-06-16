@@ -80,9 +80,12 @@ class DeletePubMascota(APIView):
 
     def delete(self, request, pk):
         try:
-            mascota = Mascota.objects.get(pk=pk)
-            mascota.delete()
-            return Response({"message":"Publicación de mascota eliminada con éxito."})
+            mascota = get_object_or_404(Mascota, pk=pk)
+            serializer = MascotaSerializer()
+            serializer.delete(mascota)
+            return Response({"message": "Publicación de mascota eliminada con éxito."})
         
         except Mascota.DoesNotExist:
-            return Response({"message":"La publicación no existe"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"message": "La publicación no existe"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            return Response({"message": str(e)}, status=status.HTTP_400_BAD_REQUEST)

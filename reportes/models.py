@@ -20,7 +20,7 @@ class ReporteMascota(models.Model):
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     mascota = models.ForeignKey(Mascota, on_delete=models.CASCADE)
     motivo = models.CharField(choices=MOTIVOS_REPORTE, max_length=20)
-    descripcion = models.TextField(null=False, blank=False)
+    descripcion = models.TextField(null=False, blank=False, max_length=255)
     estado = models.CharField(choices=ESTADO_REPORTE, max_length=20, default='EN REVISION')
     fecha_reporte = models.DateTimeField(auto_now_add=True)
 

@@ -1,6 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.dispatch import receiver
+from django.db.models.signals import post_delete
+from firebase_admin import storage
 
 
 
@@ -8,7 +11,7 @@ from django.utils import timezone
 class Publicacion(models.Model):
     titulo = models.CharField(max_length=50, null=False)
     fec_public = models.DateTimeField(auto_now_add=True)
-    descripcion = models.CharField(max_length=255, null=False, blank=False)
+    descripcion = models.CharField(max_length=500, null=False, blank=False)
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
@@ -25,7 +28,7 @@ class Mascota(Publicacion):
     ('M' , 'Macho'),
     ('H' , 'Hembra'),
 ]
-    nom_mascota = models.CharField(max_length=100, null=False, blank=False)
+    nom_mascota = models.CharField(max_length=50, null=False, blank=False)
     especie = models.CharField(max_length=50, null=False, blank=False)
     raza = models.CharField(max_length=50, null=False, blank=False)
     sexo = models.CharField(choices=list_sexo, max_length=20, null=False)
@@ -35,12 +38,14 @@ class Mascota(Publicacion):
 
     def __str__(self):
         return self.nom_mascota
+    
+
 
 
 # Models Evento
 class Evento(Publicacion):
-    nombre = models.CharField(max_length=30, null=False, blank=False)
-    localizacion = models.CharField(max_length=255, null=False, blank=False)
+    nombre = models.CharField(max_length=100, null=False, blank=False)
+    localizacion = models.CharField(max_length=500, null=False, blank=False)
     fec_evento = models.DateField(null=False, blank=False, default=timezone.now)
 
     def __str__(self):

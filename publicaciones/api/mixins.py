@@ -13,7 +13,7 @@ class FirebaseImageMixin:
 
             # Crear el blob para la foto JPG
             bucket = storage.bucket()
-            blob = bucket.blob(f"pub-mascotas/{instance.usuario.username}_{instance.nom_mascota}_{instance.usuario.id}_{instance.id}.jpg")
+            blob = bucket.blob(f"pub-mascotas/{instance.usuario.username}_{instance.nom_mascota}.jpg")
             blob.upload_from_file(jpg_image, content_type="image/jpeg")
             blob.make_public()
 
@@ -24,6 +24,19 @@ class FirebaseImageMixin:
         except Exception as e:
             print(f"Error uploading to Firebase: {e}")
             return None
+
+    def delete_image_from_firebase(self, instance):
+        try:
+            blob_name = f"pub-mascotas/{instance.usuario.username}_{instance.nom_mascota}.jpg"
+            bucket = storage.bucket()
+            blob = bucket.blob(blob_name)
+            if blob.exists():
+                blob.delete()
+                print(f"Imagen {blob_name} eliminada de Firebase. (mixin)")
+            else:
+                print(f"Imagen {blob_name} no encontrada en Firebase. (mixin)")
+        except Exception as e:
+            print(f"Error deleting from Firebase: {e}")
 
     def to_representation(self, instance):
         representation = super().to_representation(instance)
