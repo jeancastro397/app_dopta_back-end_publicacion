@@ -12,7 +12,7 @@ class EventoSerializer(ModelSerializer):
 
     class Meta:
         model = Evento
-        fields = ['usuario', 'titulo', 'fec_public', 'descripcion', 'nombre', 'localizacion', 'fec_evento', 'descripcion']
+        fields = ['usuario', 'id', 'titulo', 'fec_public', 'descripcion', 'nombre', 'localizacion', 'fec_evento', 'is_favorito']
         read_only_fields = ['usuario']
 
     def create(self, validated_data):

@@ -12,7 +12,7 @@ class ServicioSerializer(ModelSerializer):
 
     class Meta:
         model = Servicio
-        fields = ['usuario', 'titulo', 'fec_public', 'descripcion', 'tipo_servicio', 'ubicacion', 'is_favorito']
+        fields = ['usuario', 'id', 'titulo', 'fec_public', 'descripcion', 'tipo_servicio', 'ubicacion', 'is_favorito']
         read_only_fields = ['usuario']
 
 
