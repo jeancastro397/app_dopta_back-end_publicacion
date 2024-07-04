@@ -58,6 +58,9 @@ class IndexView(APIView):
             "listar reportes usuario (Token Auth)": "/reportes/listar-reportes-usuario/",
             "listar reportes admin (Token AdminUser)": "/reportes/listar-reportes-admin/"
         }
+        endpoints_publicaciones = {
+            "eliminar publicacione (Token Auth Admin)": "/publicaciones/remover/<str:tipo>/<int:pk>/"
+        }
         endpoints = {
             "bienvenida": "/",
             "mascota": endpoints_mascota,
@@ -65,6 +68,7 @@ class IndexView(APIView):
             "servicio": endpoints_servicio,
             "favorito": endpoints_favorito,
             "reporte": endpoints_reporte,
+            "publicacion": endpoints_publicaciones,
         }
         message = "¡Bienvenido a la API Publicaciones! Aquí están los endpoints disponibles:"
         return Response({"message": message, "endpoints": endpoints})

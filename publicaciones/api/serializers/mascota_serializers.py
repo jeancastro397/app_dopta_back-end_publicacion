@@ -16,7 +16,7 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
 
     class Meta:
         model = Mascota
-        fields = ['usuario', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'descripcion', 'is_favorito', 'foto_archivo']
+        fields = ['usuario', 'id', 'titulo', 'fec_public', 'nom_mascota', 'especie', 'raza', 'sexo', 'tamanio', 'edad', 'foto', 'descripcion', 'is_favorito', 'foto_archivo']
         read_only_fields = ['usuario']
 
     def create(self, validated_data):
@@ -67,3 +67,9 @@ class MascotaSerializer(FirebaseImageMixin, serializers.ModelSerializer):
         if request and request.user.is_authenticated:
             return FavoritoMascota.objects.filter(usuario=request.user, mascota=obj).exists()
         return False
+
+    def delete(self, instance):
+        # Eliminar la imagen de Firebase si existe
+        self.delete_image_from_firebase(instance)
+        # Eliminar la instancia
+        instance.delete()
